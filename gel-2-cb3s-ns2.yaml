@@ -1,3 +1,8 @@
+substitutions:
+  device_name: "switch-2"
+  light_name_1: "Light 1"
+  light_name_2: "Light 2"
+
 esphome:
   name: ${device_name}
   on_boot:
@@ -19,11 +24,17 @@ esphome:
     version: "CB3S"
 
 dashboard_import:
-  package_import_url: github://jbrandek/esphome-packages/gel-2-cb3s-ns2.yaml
+  package_import_url: github://jbrandek/esphome-packages-dev/gel-2-cb3s-ns2.yaml@main
   import_full_config: false
 
 bk72xx:
   board: cb3s
+
+# Custom captive portal with DiraSmart branding
+external_components:
+  - source: github://jbrandek/esphome-packages-dev/components
+    components: [captive_portal]
+    refresh: 1d
 
 #packages:
   #common: github://jbrandek/esphome-packages/common.yaml
@@ -48,6 +59,8 @@ ota:
    # password: "1234567890"
 
 captive_portal:
+  brand_name: "DiraSmart"
+  primary_color: "#03A9F4"
 
 time:
   - platform: homeassistant

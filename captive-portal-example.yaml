@@ -1,0 +1,29 @@
+# Example: Custom Captive Portal with Logo, Reboot and Factory Reset buttons
+#
+# Usage in your device YAML:
+#
+# packages:
+#   captive: github://jbrandek/esphome-packages/captive-portal-example.yaml
+#
+# Or use external_components directly:
+#
+# external_components:
+#   - source: github://jbrandek/esphome-packages/components
+#     components: [captive_portal]
+
+external_components:
+  - source:
+      type: local
+      path: components
+    components: [captive_portal]
+
+# Custom captive portal configuration
+captive_portal:
+  # URL to your logo image (optional - can be hosted on GitHub, your server, etc.)
+  # logo_url: "https://raw.githubusercontent.com/jbrandek/esphome-packages/main/logo.png"
+
+  # Brand name shown in the portal
+  brand_name: "DiraSmart"
+
+  # Primary color for buttons and accents (hex color)
+  primary_color: "#03A9F4"

@@ -1,3 +1,7 @@
+substitutions:
+  host_name: "cortinas"
+  device_name: "Cortinas"
+
 esphome:
   name: ${host_name}
   friendly_name: ${device_name}
@@ -6,12 +10,17 @@ esphome:
     version: "WB3S"
     
 dashboard_import:
-  package_import_url: github://jbrandek/esphome-packages/cortinas-bk-ns.yaml@main
-  #import_full_config: false
+  package_import_url: github://jbrandek/esphome-packages-dev/cortinas-bk-ns.yaml@main
+  import_full_config: false
 
 bk72xx:
   board: wb3s
- 
+
+# Custom captive portal with DiraSmart branding
+external_components:
+  - source: github://jbrandek/esphome-packages-dev/components
+    components: [captive_portal]
+    refresh: 1d
 
 logger:
 api:
@@ -26,6 +35,8 @@ wifi:
     #password: "1234567890"
 
 captive_portal:
+  brand_name: "DiraSmart"
+  primary_color: "#03A9F4"
 
 time:
   - platform: homeassistant

@@ -3,14 +3,15 @@ substitutions:
   friendly_name: "Common"
   brand_name: "DiraSmart"
   primary_color: "#03A9F4"
+  # logo_url: "https://raw.githubusercontent.com/jbrandek/esphome-packages/main/logo.png"
 
 esphome:
   name: "${device_name}"
   friendly_name: "${friendly_name}"
 
-# Custom captive portal with DiraSmart branding
+# Use custom captive portal component
 external_components:
-  - source: github://jbrandek/esphome-packages-dev/components
+  - source: github://jbrandek/esphome-packages/components
     components: [captive_portal]
     refresh: 1d
 
@@ -22,8 +23,6 @@ api:
 
 ota:
   - platform: esphome
-  #on_error:
-  #- button.press: restart_button
 
 wifi:
   ssid: !secret wifi_ssid
@@ -37,6 +36,7 @@ wifi:
 captive_portal:
   brand_name: "${brand_name}"
   primary_color: "${primary_color}"
+  # logo_url: "${logo_url}"
 
 time:
   - platform: homeassistant
