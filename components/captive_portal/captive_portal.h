@@ -21,8 +21,8 @@ class CaptivePortal : public AsyncWebHandler, public Component {
   float get_setup_priority() const override;
   void start();
   bool is_active() const { return this->active_; }
-  bool canHandle(AsyncWebServerRequest *request) override { return this->active_; }
-  void handleRequest(AsyncWebServerRequest *req) override;
+  bool canHandle(AsyncWebServerRequest *request) { return this->active_; }
+  void handleRequest(AsyncWebServerRequest *req);
 
   void set_logo_url(const std::string &url) { this->logo_url_ = url; }
   void set_brand_name(const std::string &name) { this->brand_name_ = name; }
