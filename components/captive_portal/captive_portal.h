@@ -20,6 +20,7 @@ class CaptivePortal : public AsyncWebHandler, public Component {
   void loop() override;
   float get_setup_priority() const override;
   void start();
+  void end() { this->active_ = false; }
   bool is_active() const { return this->active_; }
   bool canHandle(AsyncWebServerRequest *request) { return this->active_; }
   void handleRequest(AsyncWebServerRequest *req);
