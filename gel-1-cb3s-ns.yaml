@@ -6,6 +6,9 @@ esphome:
   name: ${device_name}
   friendly_name: ${light_name}
   name_add_mac_suffix: true
+  project:
+    name: DiraSmart.Switch-1-NS
+    version: "CB3S"
   on_boot:
     then:
       - light.control:
@@ -14,9 +17,6 @@ esphome:
       - light.control:
           id: green_led
           state: !lambda return id(last_light_state);
-  project:
-    name: DiraSmart.Switch-1-NS
-    version: "CB3S"
 
 dashboard_import:
   package_import_url: github://jbrandek/esphome-packages-dev/gel-1-cb3s-ns.yaml@main
