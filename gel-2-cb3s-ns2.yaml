@@ -58,6 +58,9 @@ ota:
   #  ssid: "${friendly_name} AP"
    # password: "1234567890"
 
+mdns:
+  disabled: false
+
 captive_portal:
   brand_name: "DiraSmart"
   primary_color: "#03A9F4"

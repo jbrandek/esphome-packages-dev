@@ -33,7 +33,10 @@ bk72xx:
 
 packages:
   common: github://jbrandek/esphome-packages/common.yaml
-  
+
+mdns:
+  disabled: false
+
 globals:
   - id: last_light1_state
     type: boolean
