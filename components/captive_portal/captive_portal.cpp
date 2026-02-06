@@ -224,17 +224,58 @@ void CaptivePortal::loop() {
 }
 
 void CaptivePortal::start() {
+  ESP_LOGI(TAG, "Starting captive portal...");
   this->base_->init();
   if (!this->initialized_) {
-    this->base_->add_handler(this);
+    // Register explicit routes for better compatibility with LibreTiny/BK72xx
+    AsyncWebServer *server = this->base_->get_server();
+
+    server->on("/", HTTP_GET, [this](AsyncWebServerRequest *request) {
+      ESP_LOGD(TAG, "Handling / request");
+      this->handle_index(request);
+    });
+
+    server->on("/config.json", HTTP_GET, [this](AsyncWebServerRequest *request) {
+      ESP_LOGD(TAG, "Handling /config.json request");
+      this->handle_config(request);
+    });
+
+    server->on("/wifisave", HTTP_GET, [this](AsyncWebServerRequest *request) {
+      ESP_LOGD(TAG, "Handling /wifisave request");
+      this->handle_wifisave(request);
+    });
+
+    server->on("/reboot", HTTP_GET, [this](AsyncWebServerRequest *request) {
+      ESP_LOGD(TAG, "Handling /reboot request");
+      this->handle_reboot(request);
+    });
+
+    server->on("/reset", HTTP_GET, [this](AsyncWebServerRequest *request) {
+      ESP_LOGD(TAG, "Handling /reset request");
+      this->handle_reset(request);
+    });
+
+    // Catch-all handler for captive portal redirect
+    server->onNotFound([this](AsyncWebServerRequest *request) {
+      if (this->active_) {
+        ESP_LOGD(TAG, "Redirecting to captive portal: %s", request->url().c_str());
+        this->handle_index(request);
+      } else {
+        request->send(404, "text/plain", "Not found");
+      }
+    });
+
+    ESP_LOGI(TAG, "Routes registered successfully");
   }
 #ifdef USE_ARDUINO
   this->dns_server_ = make_unique<DNSServer>();
   this->dns_server_->setErrorReplyCode(DNSReplyCode::NoError);
   this->dns_server_->start(53, "*", wifi::global_wifi_component->wifi_soft_ap_ip());
+  ESP_LOGI(TAG, "DNS server started");
 #endif
   this->initialized_ = true;
   this->active_ = true;
+  ESP_LOGI(TAG, "Captive portal active");
 }
 
 void CaptivePortal::handleRequest(AsyncWebServerRequest *req) {
